@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../config/supabaseClient';
+import Toast from '../components/Toast';
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/Auth.css';
 
 const Signup = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
@@ -15,16 +17,33 @@ const Signup = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
+  const [passwordStrength, setPasswordStrength] = useState(0);
   const navigate = useNavigate();
 
   const branches = ['CSE', 'ECE', 'ME', 'CE', 'EE', 'IT'];
 
+  const calculatePasswordStrength = (password) => {
+    let strength = 0;
+    if (password.length >= 6) strength += 25;
+    if (password.length >= 10) strength += 25;
+    if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 25;
+    if (/\d/.test(password)) strength += 15;
+    if (/[^a-zA-Z\d]/.test(password)) strength += 10;
+    return Math.min(strength, 100);
+  };
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
     setError('');
+    
+    if (name === 'password') {
+      setPasswordStrength(calculatePasswordStrength(value));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -34,20 +53,20 @@ const Signup = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
 
     // Check if Supabase is configured
     if (!supabase) {
-      setError('⚠️ Backend not configured. Please check console for setup instructions.');
+      setToast({ show: true, message: 'Backend not configured. Please check setup.', type: 'error' });
       setLoading(false);
       return;
     }
     
     // Validation
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setToast({ show: true, message: 'Passwords do not match', type: 'error' });
       setLoading(false);
       return;
     }
 
     if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setToast({ show: true, message: 'Password must be at least 6 characters', type: 'warning' });
       setLoading(false);
       return;
     }
@@ -63,13 +82,13 @@ const Signup = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
       // If there's an error other than "not found", show it
       if (checkError && checkError.code !== 'PGRST116') {
         console.error('Check email error:', checkError);
-        setError(`Database error: ${checkError.message}`);
+        setToast({ show: true, message: `Database error: ${checkError.message}`, type: 'error' });
         setLoading(false);
         return;
       }
 
       if (existingUser) {
-        setError('Email already registered');
+        setToast({ show: true, message: 'Email already registered', type: 'warning' });
         setLoading(false);
         return;
       }
@@ -91,13 +110,13 @@ const Signup = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
 
       if (insertError) {
         console.error('Insert error:', insertError);
-        setError(`Registration failed: ${insertError.message}`);
+        setToast({ show: true, message: `Registration failed: ${insertError.message}`, type: 'error' });
         setLoading(false);
         return;
       }
 
       if (!newUser) {
-        setError('Failed to create account. Please try again.');
+        setToast({ show: true, message: 'Failed to create account. Please try again.', type: 'error' });
         setLoading(false);
         return;
       }
@@ -107,11 +126,12 @@ const Signup = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
       setCurrentUser(newUser);
       setIsAuthenticated(true);
       setUserRole(newUser.role || 'student');
+      setToast({ show: true, message: 'Account created successfully! Welcome to LU ClassHub.', type: 'success' });
       
-      navigate('/classes');
+      setTimeout(() => navigate('/classes'), 500);
     } catch (err) {
       console.error('Signup error:', err);
-      setError(`Registration failed: ${err.message || 'Unknown error'}`);
+      setToast({ show: true, message: `Registration failed: ${err.message || 'Unknown error'}`, type: 'error' });
     } finally {
       setLoading(false);
     }
@@ -119,6 +139,15 @@ const Signup = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
 
   return (
     <div className="auth-page">
+      <Toast 
+        message={toast.message} 
+        type={toast.type} 
+        isVisible={toast.show} 
+        onClose={() => setToast({ ...toast, show: false })} 
+      />
+      
+      {loading && <LoadingSpinner fullScreen={true} />}
+      
       <motion.div 
         className="auth-container"
         initial={{ opacity: 0, y: 20 }}
@@ -201,6 +230,23 @@ const Signup = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
               placeholder="At least 6 characters"
               required
             />
+            {formData.password && (
+              <div className="password-strength">
+                <div className="strength-bar">
+                  <div 
+                    className={`strength-fill strength-${
+                      passwordStrength < 40 ? 'weak' : 
+                      passwordStrength < 70 ? 'medium' : 'strong'
+                    }`}
+                    style={{ width: `${passwordStrength}%` }}
+                  ></div>
+                </div>
+                <span className="strength-text">
+                  {passwordStrength < 40 ? 'Weak' : 
+                   passwordStrength < 70 ? 'Medium' : 'Strong'}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="form-group">

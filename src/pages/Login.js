@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { supabase } from '../config/supabaseClient';
+import Toast from '../components/Toast';
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../styles/Auth.css';
 
 const Login = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
@@ -11,6 +13,7 @@ const Login = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ show: false, message: '', type: 'info' });
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -28,7 +31,7 @@ const Login = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
 
     // Check if Supabase is configured
     if (!supabase) {
-      setError('⚠️ Backend not configured. Please check console for setup instructions.');
+      setToast({ show: true, message: 'Backend not configured. Please check setup.', type: 'error' });
       setLoading(false);
       return;
     }
@@ -43,7 +46,7 @@ const Login = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
         .single();
 
       if (queryError) {
-        setError('Invalid email or password');
+        setToast({ show: true, message: 'Invalid email or password', type: 'error' });
         setLoading(false);
         return;
       }
@@ -54,12 +57,13 @@ const Login = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
         setCurrentUser(users);
         setIsAuthenticated(true);
         setUserRole(users.role || 'student');
-        navigate('/classes');
+        setToast({ show: true, message: 'Login successful! Welcome back.', type: 'success' });
+        setTimeout(() => navigate('/classes'), 500);
       } else {
-        setError('Invalid email or password');
+        setToast({ show: true, message: 'Invalid email or password', type: 'error' });
       }
     } catch (err) {
-      setError('Login failed. Please try again.');
+      setToast({ show: true, message: 'Login failed. Please try again.', type: 'error' });
       console.error('Login error:', err);
     } finally {
       setLoading(false);
@@ -68,6 +72,15 @@ const Login = ({ setIsAuthenticated, setCurrentUser, setUserRole }) => {
 
   return (
     <div className="auth-page">
+      <Toast 
+        message={toast.message} 
+        type={toast.type} 
+        isVisible={toast.show} 
+        onClose={() => setToast({ ...toast, show: false })} 
+      />
+      
+      {loading && <LoadingSpinner fullScreen={true} />}
+      
       <motion.div 
         className="auth-container"
         initial={{ opacity: 0, y: 20 }}
