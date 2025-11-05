@@ -2,11 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useClassStore } from '../store/classStore';
-import GlassmorphicCardUltra from '../components/GlassmorphicCardUltra';
-import ParticleBackground from '../components/ParticleBackground';
-import '../styles/ClassDashboard.css';
-import '../styles/ClassDashboardPremium.css';
-import '../styles/ClassDashboardUltra.css';
+import '../styles/ClassDashboardMinimal.css';
 
 const ClassDashboard = () => {
   const classes = useClassStore((state) => state.classes);
@@ -15,56 +11,58 @@ const ClassDashboard = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 },
+      transition: { staggerChildren: 0.08 },
     },
   };
 
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
-    <motion.div className="class-dashboard" initial="hidden" animate="visible" variants={containerVariants}>
-      <ParticleBackground />
+    <div className="class-dashboard-minimal">
       <motion.div 
-        className="dashboard-header"
-        initial={{ opacity: 0, y: -30 }}
+        className="dashboard-header-minimal"
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+        transition={{ duration: 0.5 }}
       >
-        <h1>B.Tech Programs - University of Lucknow</h1>
-        <p>Access course materials and resources for all B.Tech branches</p>
+        <h1>Your Classes</h1>
+        <p>Select a subject to view materials</p>
       </motion.div>
 
-      <motion.div className="classes-grid">
+      <motion.div 
+        className="classes-grid-minimal"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
         {classes.map((classItem, index) => (
-          <GlassmorphicCardUltra key={classItem.id} delay={index * 0.15}>
-            <div className="class-card">
-              <div className="class-header">
-                <h3>{classItem.name}</h3>
-                <span className="material-count">
-                  <i className="fas fa-book"></i> {classItem.materials.length} materials
-                </span>
-              </div>
-              <p className="teacher-name">
-                <i className="fas fa-user-tie"></i> {classItem.teacher}
-              </p>
-              <p className="class-description">{classItem.description}</p>
-              <div className="class-stats">
-                <div className="stat">
-                  <i className="fas fa-file-pdf"></i>
-                  <span>{classItem.materials.filter(m => m.type === 'pdf').length} PDFs</span>
+          <motion.div key={classItem.id} variants={itemVariants}>
+            <Link to={`/class/${classItem.id}`} className="class-card-minimal">
+              <div className="card-content-minimal">
+                <div className="card-icon">
+                  <i className="fas fa-book"></i>
                 </div>
-                <div className="stat">
-                  <i className="fas fa-file-powerpoint"></i>
-                  <span>{classItem.materials.filter(m => m.type === 'pptx').length} Slides</span>
+                <div className="card-info">
+                  <h3>{classItem.name}</h3>
+                  <p className="teacher">{classItem.teacher}</p>
+                  <div className="card-meta">
+                    <span className="material-count">
+                      {classItem.materials.length} materials
+                    </span>
+                  </div>
                 </div>
               </div>
-              <Link to={`/class/${classItem.id}`} className="view-class-btn">
-                <span>View Class</span>
-                <i className="fas fa-arrow-right"></i>
-              </Link>
-            </div>
-          </GlassmorphicCardUltra>
+              <div className="card-arrow">
+                <i className="fas fa-chevron-right"></i>
+              </div>
+            </Link>
+          </motion.div>
         ))}
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 

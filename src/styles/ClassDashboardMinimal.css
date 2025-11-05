@@ -1,0 +1,224 @@
+/* Minimal Class Dashboard - Clean & Simple */
+.class-dashboard-minimal {
+  min-height: 100vh;
+  padding: 8rem 5% 4rem;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+}
+
+/* Header */
+.dashboard-header-minimal {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.dashboard-header-minimal h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 900;
+  background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.dashboard-header-minimal p {
+  font-family: 'Inter', sans-serif;
+  color: rgba(203, 213, 225, 0.7);
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+/* Grid - Compact & Organized */
+.classes-grid-minimal {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Card - Minimal & Clean */
+.class-card-minimal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 2rem;
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.15s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.class-card-minimal::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.class-card-minimal:hover::before {
+  opacity: 1;
+}
+
+.class-card-minimal:hover {
+  background: rgba(17, 24, 39, 0.9);
+  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateX(8px);
+  box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+}
+
+/* Card Content */
+.card-content-minimal {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.class-card-minimal:hover .card-icon {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+}
+
+.card-icon i {
+  color: #ffffff;
+  font-size: 1.3rem;
+}
+
+.card-info {
+  flex: 1;
+}
+
+.card-info h3 {
+  font-family: 'Poppins', sans-serif;
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  transition: color 0.15s ease;
+}
+
+.class-card-minimal:hover .card-info h3 {
+  color: #60a5fa;
+}
+
+.card-info .teacher {
+  font-family: 'Inter', sans-serif;
+  color: rgba(203, 213, 225, 0.6);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.material-count {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #60a5fa;
+  font-weight: 500;
+  background: rgba(59, 130, 246, 0.1);
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  transition: all 0.15s ease;
+}
+
+.class-card-minimal:hover .material-count {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* Arrow */
+.card-arrow {
+  color: rgba(203, 213, 225, 0.4);
+  font-size: 1.2rem;
+  transition: all 0.15s ease;
+}
+
+.class-card-minimal:hover .card-arrow {
+  color: #60a5fa;
+  transform: translateX(5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .class-dashboard-minimal {
+    padding: 6rem 4% 3rem;
+  }
+
+  .dashboard-header-minimal h1 {
+    font-size: 2.5rem;
+  }
+
+  .classes-grid-minimal {
+    gap: 0.75rem;
+  }
+
+  .class-card-minimal {
+    padding: 1.2rem 1.5rem;
+  }
+
+  .card-content-minimal {
+    gap: 1rem;
+  }
+
+  .card-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .card-icon i {
+    font-size: 1.1rem;
+  }
+
+  .card-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .card-info .teacher {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .class-card-minimal {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .card-content-minimal {
+    width: 100%;
+  }
+
+  .card-arrow {
+    align-self: flex-end;
+  }
+}
