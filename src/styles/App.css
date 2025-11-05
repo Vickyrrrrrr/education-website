@@ -1,0 +1,12 @@
+/* App Styles */
+.app {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+  .app {
+    font-size: 14px;
+  }
+}

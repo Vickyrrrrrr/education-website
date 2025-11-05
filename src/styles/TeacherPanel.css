@@ -1,0 +1,227 @@
+/* Teacher Panel Styles */
+.teacher-panel {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  min-height: 80vh;
+}
+
+.panel-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.panel-header h1 {
+  font-size: 44px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+.panel-header p {
+  font-size: 18px;
+  color: #666;
+  opacity: 0.8;
+}
+
+.panel-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.stat-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 100, 200, 0.1);
+  transition: var(--transition);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 100, 200, 0.15);
+}
+
+.stat-card i {
+  font-size: 40px;
+  color: var(--primary-color);
+}
+
+.stat-content h3 {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-color);
+  margin-bottom: 5px;
+}
+
+.stat-content p {
+  color: #666;
+  font-weight: 600;
+}
+
+.create-class-section {
+  margin-bottom: 50px;
+}
+
+.btn-create-class {
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: var(--border-radius);
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.btn-create-class:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 150, 0, 0.3);
+}
+
+.classes-management h2 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: var(--text-color);
+}
+
+.management-table {
+  background: white;
+  border-radius: 16px;
+  overflow: auto;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.management-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.management-table thead {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+  color: white;
+}
+
+.management-table th {
+  padding: 20px;
+  text-align: left;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.management-table td {
+  padding: 18px 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.management-table tbody tr {
+  transition: var(--transition);
+}
+
+.management-table tbody tr:hover {
+  background: #f9f9f9;
+}
+
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, var(--secondary-dark) 100%);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.btn-action {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.btn-edit {
+  background: rgba(0, 100, 200, 0.1);
+  color: var(--primary-color);
+}
+
+.btn-edit:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.btn-delete {
+  background: rgba(255, 71, 87, 0.1);
+  color: #ff4757;
+}
+
+.btn-delete:hover {
+  background: #ff4757;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+  .management-table table {
+    font-size: 13px;
+  }
+
+  .management-table th,
+  .management-table td {
+    padding: 12px;
+  }
+
+  .btn-action {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 768px) {
+  .teacher-panel {
+    padding: 40px 15px;
+  }
+
+  .panel-header h1 {
+    font-size: 32px;
+  }
+
+  .panel-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .management-table {
+    overflow-x: auto;
+  }
+
+  .management-table table {
+    min-width: 600px;
+  }
+}

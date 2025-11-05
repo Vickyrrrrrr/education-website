@@ -1,0 +1,38 @@
+.custom-cursor {
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(30, 64, 175, 0.4);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  mix-blend-mode: difference;
+}
+
+.cursor-dot {
+  width: 6px;
+  height: 6px;
+  background: rgba(59, 130, 246, 0.9);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.7);
+}
+
+/* Hide default cursor on desktop */
+@media (min-width: 768px) {
+  * {
+    cursor: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .custom-cursor,
+  .cursor-dot {
+    display: none;
+  }
+}
